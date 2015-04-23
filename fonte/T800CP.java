@@ -20,11 +20,11 @@ public class T800CP{
         tokenizer.add("[*/]", 5);                  //multiplicação ou divisão
         tokenizer.add("\\^", 6);                   //elevado
         tokenizer.add("[0-9]+", 7);                //números inteiros
-        tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); //variáveis 
+        tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 0); //variáveis 
 
         try{
             tokenizer.tokenize("cos");
-            tokenizer.tokenize(" sin(x) * (1 + var_12)");
+            tokenizer.tokenize(" sin(x) * (1 + var_12) + ln(3 / 2) ^ rodrgo");
 
             for(Tokenizer.Token tok : tokenizer.getTokens()){
                 System.out.println("" + tok.token + " " + tok.sequence);
