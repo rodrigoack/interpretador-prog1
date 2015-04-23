@@ -21,14 +21,9 @@ public class T800CP{
         tokenizer.add("\\^", 6);                   //elevado
         tokenizer.add("[0-9]+", 7);                //números inteiros
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); //variáveis 
-        tokenizer.add("=", 9); 
 
         try{
-            for(Tokenizer.TokenInfo info : tokenizer.getTokenInfos()){
-                System.out.println("" + info.token + " " + info.regex.toString());
-            }
-
-            tokenizer.tokenize("=");
+            tokenizer.tokenize("cos");
             tokenizer.tokenize(" sin(x) * (1 + var_12)");
 
             for(Tokenizer.Token tok : tokenizer.getTokens()){

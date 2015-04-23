@@ -15,7 +15,7 @@ public class Tokenizer{
 
 
 	public void add(String regex, int token){
-		tokenInfos.add(new TokenInfo(Pattern.compile("^(" + regex + ")^"), token));
+		tokenInfos.add(new TokenInfo(Pattern.compile(regex), token));
 	}
 
 
@@ -35,7 +35,7 @@ public class Tokenizer{
 					String tok = m.group().trim();
 					tokens.add(new Token(info.token, tok));
 
-					s = m.replaceFirst("");
+					s = m.replaceFirst("").trim();
 					break;
 				}
 			}
