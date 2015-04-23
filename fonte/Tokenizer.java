@@ -15,11 +15,11 @@ public class Tokenizer{
 
 
 	public void add(String regex, int token){
-		tokenInfos.add(new TokenInfo(Pattern.compile("^("+regex+")^"), token));
+		tokenInfos.add(new TokenInfo(Pattern.compile("^(" + regex + ")^"), token));
 	}
 
 
-	public void tokenize(String str){
+	public void tokenize(String str) throws Exception{
 		String s = new String(str);
 		tokens.clear();
 
@@ -41,7 +41,7 @@ public class Tokenizer{
 			}
 
 			//TODO: Arranjar uma exceção melhor (ParserException)
-			if (!match) System.out.println(
+			if (!match) throw new Exception(
 				"Caractere inesperado na entrada: " + s);
 		}
 	}
@@ -50,8 +50,13 @@ public class Tokenizer{
 		return tokens;
 	}
 
+
+	public LinkedList<TokenInfo> getTokenInfos(){
+		return tokenInfos;
+	}
+
 	
-	private class TokenInfo{
+	public class TokenInfo{
 		public final Pattern regex;
 		public final int     token;
 
@@ -60,6 +65,7 @@ public class Tokenizer{
 			this.regex = regex;
 			this.token = token;
 		}
+
 	}
 
 	public class Token{
