@@ -15,12 +15,12 @@ public class Tokenizer{
 
 
 	public void add(String regex, int token){
-		tokenInfos.add(new TokenInfo(Pattern.compile(regex), token));
+		tokenInfos.add(new TokenInfo(Pattern.compile("^("+regex+")"), token));
 	}
 
 
 	public void tokenize(String str) throws Exception{
-		String s = new String(str);
+		String s = new String(str.trim());
 		tokens.clear();
 
 		while(!s.equals("")){
@@ -59,6 +59,7 @@ public class Tokenizer{
 	public class TokenInfo{
 		public final Pattern regex;
 		public final int     token;
+
 
 		public TokenInfo(Pattern regex, int token){
 			super();
