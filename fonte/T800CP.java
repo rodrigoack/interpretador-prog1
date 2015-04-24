@@ -25,8 +25,9 @@ public class T800CP{
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 8); //variáveis 
 
         try{
-            tokenizer.tokenize(" sin(x) * (1 + var_12) + ln(3 / 2) ^ ");
-            tokenizer.tokenize(hue.nextLine());
+            tokenizer.tokenize("cos");
+            tokenizer.tokenize(" sin(x) * (1 + var_12)");
+
             for(Tokenizer.Token tok : tokenizer.getTokens()){
                 System.out.println("" + tok.token + " " + tok.sequence);
             }
