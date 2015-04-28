@@ -28,7 +28,7 @@ public class T800CP{
             tokenizer.tokenize("cos");
             tokenizer.tokenize(" sin(x) * (1 + var_12)");
 
-            for(Tokenizer.Token tok : tokenizer.getTokens()){
+            for(Token tok : tokenizer.getTokens()){
                 System.out.println("" + tok.token + " " + tok.sequence);
             }
 
