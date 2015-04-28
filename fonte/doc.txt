@@ -1,3 +1,5 @@
 Doc:
 
+Variáveis não podem ter números.
+Variáveis não podem possuir expressões reservadas.
 Números devem estar separados por espaços dos operandos.

@@ -8,12 +8,14 @@
  * Vanessa Sassi: <burnoutvanessa@gmail.com>
  */
 
+import java.util.Scanner;
+
 public class T800CP{
 	public static void main(String args[]){
 		Tokenizer tokenizer = new Tokenizer();
-
+        Scanner hue = new Scanner(System.in);
         /*TODO: Testar tokenizer com tokens de operações simples pra depois trocar pra nossa linguagem.*/
-        tokenizer.add("sin|cos|exp|ln|sqrt", 1);   //funções matemáticas
+        tokenizer.add("sin|cos|exp|ln|sqrt[^a-zA-Z0-9]?", 1);   //funções matemáticas
         tokenizer.add("\\(", 2);                   //abre parênteses
         tokenizer.add("\\)", 3);                   //fecha parênteses
         tokenizer.add("[+-]", 4);                  //soma ou subtração
