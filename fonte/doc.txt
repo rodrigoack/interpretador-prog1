@@ -1,4 +1,3 @@
 Doc:
 
-Variáveis não podem ter números.
 Números devem estar separados por espaços dos operandos.
