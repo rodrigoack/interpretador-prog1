@@ -1,5 +1,8 @@
 import java.util.LinkedList;
 
+/**
+ * Classe que encapsula as informações dos tokens
+ */
 public class Token{
 		public static final int EPSILON       = 0;
 		public static final int PLUSMINUS     = 1;
@@ -11,13 +14,17 @@ public class Token{
 		public static final int NUMBER        = 7;
 		public static final int VARIABLE      = 8;
 
-
+		/** Valor numérico do token */
 		public final int    token;
+		/** Sequência de caracteres que representa o token */
 		public final String sequence;
+		/** Posição do token na string */
+		public final int    pos;
 
-		public Token(int token, String sequence){
+		public Token(int token, String sequence, int pos){
 			super();
 			this.token    = token;
 			this.sequence = sequence;
+			this.pos      = pos;
 		}
 	}
