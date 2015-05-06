@@ -16,8 +16,9 @@ public class Parser{
 	 * as operações necessárias.
 	 * @param tokens
 	 * 			Lista de tokens a ser parseada
-	 * TODO: Verificar por que dá creps aqui se eu tô passando uma linkedlist
+	 * TODO: Verificar por que dá creps aqui se eu tô passando uma linkedlist com o tipo certo
 	 */
+	@SuppressWarnings("unchecked") //faz o compilador parar de resmungar
 	public void parse(LinkedList<Token> tokens) throws Exception{
 		this.tokens = (LinkedList<Token>) tokens.clone();
 		lookahead   = this.tokens.getFirst();
