@@ -19,14 +19,16 @@ public class Parser{
 	 * TODO: Verificar por que dá creps aqui se eu tô passando uma linkedlist com o tipo certo
 	 */
 	@SuppressWarnings("unchecked") //faz o compilador parar de resmungar
-	public void parse(LinkedList<Token> tokens) throws Exception{
+	public ExpressionNode parse(LinkedList<Token> tokens) throws Exception{
 		this.tokens = (LinkedList<Token>) tokens.clone();
 		lookahead   = this.tokens.getFirst();
 
-		expression();
+		ExpressionNode expr = expression();
 
 		if(lookahead.token != Token.EPSILON)
 			throw new Exception("Símbolo inesperado \"" + lookahead.sequence + "\" encontrado. (parse)");
+
+		return expr;
 	}
 
 	/**
@@ -42,91 +44,143 @@ public class Parser{
 			lookahead = tokens.getFirst();
 	}
 
-	private void expression() throws Exception{
-		signedTerm();
-		sumOp();
+	private ExpressionNode expression() throws Exception{
+		ExpressionNode expr = signedTerm();
+		return sumOp(expr);
 	}
 
-	private void sumOp() throws Exception{
+	private ExpressionNode sumOp(ExpressionNode expr) throws Exception{
 		if(lookahead.token == Token.PLUSMINUS){
+			AdditionExpressionNode sum;
+			if(expr.getType() == ExpressionNode.ADDITION_NODE)
+				sum = (AdditionExpressionNode) expr;
+			else
+				sum = new AdditionExpressionNode(expr, true);
+
+			boolean positive = lookahead.sequence.equals("+");
 			nextToken();
-			term();
-			sumOp();
-		}else{
-			//sumOp -> EPSILON
+			ExpressionNode t = term();
+			sum.add(t, positive);
+
+			return sumOp(sum);
 		}
+
+		return expr;
 	}
 
-	private void signedTerm() throws Exception{
+	private ExpressionNode signedTerm() throws Exception{
 		if(lookahead.token == Token.PLUSMINUS){
+			boolean positive = lookahead.sequence.equals("+");
 			nextToken();
-			term();
-		}else{
-			term();
+			ExpressionNode t = term();
+
+			if(positive)
+				return t;
+			else
+				return new AdditionExpressionNode(t, false);
 		}
+
+		return term();
 	}
 
-	private void term() throws Exception{
-		factor();
-		termOp();
+	private ExpressionNode term() throws Exception{
+		ExpressionNode f = factor();
+		return termOp(f);
 	}
 
-	private void termOp() throws Exception{
+	private ExpressionNode termOp(ExpressionNode expr) throws Exception{
+		
 		if(lookahead.token == Token.MULTDIV){
+			MultiplicationExpressionNode prod;
+
+			if(expr.getType() == ExpressionNode.MULTIPLICATION_NODE)
+				prod = (MultiplicationExpressionNode) expr;
+			else
+				prod = new MultiplicationExpressionNode(expr, true);
+
+			boolean positive = lookahead.sequence.equals("*");
 			nextToken();
-			signedFactor();
-			termOp();
-		}else{
-			// termOp -> EPSILON
+			ExpressionNode f = signedFactor();
+			prod.add(f, positive);
+
+			return termOp(prod);
 		}
+
+		return expr;
 	}
 
-	private void signedFactor() throws Exception{
+	private ExpressionNode signedFactor() throws Exception{
+		
 		if(lookahead.token == Token.PLUSMINUS){
+			boolean positive = lookahead.sequence.equals("+");
 			nextToken();
-			factor();
-		}else{
-			factor();
+			ExpressionNode t = factor();
+			if(positive)
+				return t;
+			else
+				return new AdditionExpressionNode(t, false);
 		}
+
+		return factor();
 	}
 
-	private void factor() throws Exception{
-		argument();
-		factorOp();
+	private ExpressionNode factor() throws Exception{
+		ExpressionNode a = argument();
+		return factorOp(a);
 	}
 
-	private void factorOp() throws Exception{
+	private ExpressionNode factorOp(ExpressionNode expr) throws Exception{
 		if(lookahead.token == Token.RAISED){
 			nextToken();
-			signedFactor();
-		}else{
-			//factorOp ->EPSILON
+			ExpressionNode exponent = signedFactor();
+
+			return new ExponentiationExpressionNode(expr, exponent);
 		}
+
+		return expr;
 	}
 
-	private void argument() throws Exception{
+	private ExpressionNode argument() throws Exception{
+
 		if(lookahead.token == Token.FUNCTION){
+			int function = FunctionExpressionNode.stringToFunction(lookahead.sequence);
 			nextToken();
-			argument();
-		}else if (lookahead.token == Token.OPEN_BRACKET){
+			ExpressionNode expr = argument();
+			return new FunctionExpressionNode(function, expr);
+		}
+
+		else if (lookahead.token == Token.OPEN_BRACKET){
 			nextToken();
-			expression();
+			ExpressionNode expr = expression();
+			
 			if(lookahead.token != Token.CLOSE_BRACKET)
 				throw new Exception("Fecha parênteses esperado e " + lookahead.sequence + "encontrado em vez disso");
 			
 			nextToken();
-		}else{
-			value();
+			return expr;
 		}
+			
+			return value();
 	}
 
-	private void value() throws Exception{
+	private ExpressionNode value() throws Exception{
+
 		if(lookahead.token == Token.NUMBER){
+			ExpressionNode expr = new ConstantExpressionNode(lookahead.sequence);
 			nextToken();
-		}else if(lookahead.token == Token.VARIABLE){
-			nextToken();
-		}else{
-			throw new Exception("Símbolo inesperado \"" + lookahead.sequence + "\" encontrado. (value)");
+			return expr;
 		}
+
+		if(lookahead.token == Token.VARIABLE){
+			ExpressionNode expr = new VariableExpressionNode(lookahead.sequence);
+			nextToken();
+			return expr;
+		}
+
+		if(lookahead.token == Token.EPSILON)
+			throw new Exception("Fim da entrada inesperado!");
+		else
+			throw new Exception("Simbolo inesperado \"" + lookahead.sequence + "\" encontrado. (value)");
+		
 	}
 }

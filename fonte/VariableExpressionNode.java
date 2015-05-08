@@ -1,4 +1,4 @@
-public class VariableExpressionNode implements ExpressionNode throws Exception{
+public class VariableExpressionNode implements ExpressionNode{
 	private String name;
 	private double value;
 	private boolean valueSet;
