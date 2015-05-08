@@ -15,4 +15,10 @@ public class ExponentiationExpressionNode implements ExpressionNode{
 	public double getValue() throws Exception{
 		return Math.pow(base.getValue(), exponent.getValue());
 	}
+
+	public void accept(ExpressionNodeVisitor visitor){
+		visitor.visit(this);
+		base.accept(visitor);
+		exponent.accept(visitor);
+	}
 }

@@ -23,4 +23,10 @@ public class MultiplicationExpressionNode extends SequenceExpressionNode{
 
 		return prod;
 	}
+
+	public void accept(ExpressionNodeVisitor visitor){
+		visitor.visit(this);
+		for(Term t : terms)
+			t.expression.accept(visitor);
+	}
 }

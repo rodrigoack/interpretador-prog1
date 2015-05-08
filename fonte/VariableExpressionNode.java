@@ -12,6 +12,10 @@ public class VariableExpressionNode implements ExpressionNode{
 		return ExpressionNode.VARIABLE_NODE;
 	}
 
+	public String getName(){
+		return name;
+	}
+
 	public void setValue(double value){
 		this.value    = value;
 		this.valueSet = true;
@@ -22,5 +26,9 @@ public class VariableExpressionNode implements ExpressionNode{
 			return value;
 		else
 			throw new Exception("Variavel " + name + " nao foi inicializada.");
+	}
+
+	public void accept(ExpressionNodeVisitor visitor){
+		visitor.visit(this);
 	}
 }

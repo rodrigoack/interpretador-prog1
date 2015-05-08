@@ -12,7 +12,7 @@ public class AdditionExpressionNode extends SequenceExpressionNode{
 		return ExpressionNode.ADDITION_NODE;
 	}
 
-	public double getValue(){
+	public double getValue() throws Exception{
 		double sum = 0.0;
 		for(Term t : terms){
 			if(t.positive)
@@ -21,5 +21,11 @@ public class AdditionExpressionNode extends SequenceExpressionNode{
 				sum -= t.expression.getValue();
 		}
 		return sum;
+	}
+
+	public void accept(ExpressionNodeVisitor visitor){
+		visitor.visit(this);
+		for(Term t : terms)
+			t.expression.accept(visitor);
 	}
 }

@@ -49,14 +49,21 @@ public class T800CP{
             expression.add(sqrt, true);
 
             System.out.println("O resultado eh: " + expression.getValue());
-            //Fim do cálculo da expressão
+            //Fim do cálculo manual da expressão
 
 
 
 
             tokenizer.tokenize("3*2^4 + sqrt(1+3)");
-            ExpressionNode nicolas = parser.parse(tokenizer.getTokens());
-            System.out.println("O valor da expressao parseada eh: " + nicolas.getValue());
+            ExpressionNode expression2 = parser.parse(tokenizer.getTokens());
+            System.out.println("O valor da expressao parseada eh: " + expression2.getValue());
+
+
+            tokenizer.tokenize("sin(pi/2)");
+            ExpressionNode expression3 = parser.parse(tokenizer.getTokens());
+            expression3.accept(new SetVariable("pi", Math.PI));
+            System.out.println("O valor da expressao do pi eh: " + expression3.getValue());
+
 
             for(Token tok : tokenizer.getTokens()){
                 System.out.println("" + tok.token + " " + tok.sequence);

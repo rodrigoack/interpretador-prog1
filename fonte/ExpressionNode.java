@@ -5,6 +5,8 @@ public interface ExpressionNode{
 	public static final int MULTIPLICATION_NODE = 4;
 	public static final int EXPONENTIATION_NODE = 5;
 	public static final int FUNCTION_NODE       = 6;
+
 	public int getType();
 	public double getValue() throws Exception;
+	public void accept(ExpressionNodeVisitor visitor);
 }

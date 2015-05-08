@@ -67,4 +67,9 @@ public class FunctionExpressionNode implements ExpressionNode{
 	public static String getAllFunctions(){
 		return "sin|cos|tan|asin|acos|atan|sqrt|exp|ln|log|log2";
 	}
+
+	public void accept(ExpressionNodeVisitor visitor){
+		visitor.visit(this);
+		argument.accept(visitor);
+	}
 }
