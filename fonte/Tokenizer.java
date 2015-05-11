@@ -57,8 +57,7 @@ public class Tokenizer{
 			}
 
 			//TODO: Arranjar uma exceção melhor (ParserException)
-			if (!match) throw new Exception(
-				"Caractere inesperado na entrada: " + s);
+			if (!match) throw new Exception("Caractere inesperado na entrada: " + s);
 		}
 	}
 

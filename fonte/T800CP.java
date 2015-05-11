@@ -9,11 +9,16 @@
  */
 
 import java.util.Scanner;
+import java.io.*;
 
 public class T800CP{
-	public static void main(String args[]){
+	public static void main(String args[]) throws Exception{
 		Tokenizer tokenizer = new Tokenizer();
         Parser    parser    = new Parser();
+        File f;
+        Scanner s;
+        String linhas[] = new String[2000];
+
 
         /*TODO: Testar tokenizer com tokens de operações simples pra depois trocar pra nossa linguagem.*/
         tokenizer.add("sin|cos|exp|ln|sqrt", Token.FUNCTION);   //funções matemáticas
@@ -25,53 +30,25 @@ public class T800CP{
         tokenizer.add("[0-9]+", Token.NUMBER);                  //números inteiros
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", Token.VARIABLE); //variáveis 
 
+        f = new File(args[0]);
+        s = new Scanner(f);
 
+        int i = 0;
+        while(s.hasNext()){
+            linhas[i] = s.nextLine();
+            i++;
+        }
 
 
         try{
 
-
-            //Passo a passo pra calcular a expressão 3*2^4 + sqrt(1+3) = 50 (teste das expressões)
-            AdditionExpressionNode innerSum = new AdditionExpressionNode();
-            innerSum.add(new ConstantExpressionNode(1), true);
-            innerSum.add(new ConstantExpressionNode(3), true);
-
-            ExpressionNode sqrt = new FunctionExpressionNode(FunctionExpressionNode.SQRT, innerSum);
-
-            ExpressionNode expo = new ExponentiationExpressionNode(new ConstantExpressionNode(2), new ConstantExpressionNode(4));
-
-            MultiplicationExpressionNode prod = new MultiplicationExpressionNode();
-            prod.add(new ConstantExpressionNode(3), true);
-            prod.add(expo, true);
-
-            AdditionExpressionNode expression = new AdditionExpressionNode();
-            expression.add(prod, true);
-            expression.add(sqrt, true);
-
-            System.out.println("O resultado eh: " + expression.getValue());
-            //Fim do cálculo manual da expressão
-
-
-
-
-            tokenizer.tokenize("3*2^4 + sqrt(1+3)");
-            ExpressionNode expression2 = parser.parse(tokenizer.getTokens());
-            System.out.println("O valor da expressao parseada eh: " + expression2.getValue());
-
-
-            tokenizer.tokenize("sin(pi/2)");
-            ExpressionNode expression3 = parser.parse(tokenizer.getTokens());
-            expression3.accept(new SetVariable("pi", Math.PI));
-            System.out.println("O valor da expressao do pi eh: " + expression3.getValue());
-
-
-            for(Token tok : tokenizer.getTokens()){
-                System.out.println("" + tok.token + " " + tok.sequence);
+            //expression.accept(new SetVariable("pi", Math.PI));
+            for(int j = 0; j < linhas.length; j++){
+                tokenizer.tokenize(linhas[j]);
+                ExpressionNode exp = parser.parse(tokenizer.getTokens());
+                System.out.println("resultado da linha " + j + ": " + exp.getValue());
             }
 
-
-
-        //TODO: ParserException
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
