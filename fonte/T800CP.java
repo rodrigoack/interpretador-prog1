@@ -30,22 +30,24 @@ public class T800CP{
         tokenizer.add("[0-9]+", Token.NUMBER);                  //números inteiros
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", Token.VARIABLE); //variáveis 
 
-        f = new File(args[0]);
-        s = new Scanner(f);
-
-        int i = 0;
-        while(s.hasNext()){
-            linhas[i] = s.nextLine();
-            i++;
-        }
+        
 
 
         try{
+            f = new File(args[0]);
+            s = new Scanner(f);
 
-            //expression.accept(new SetVariable("pi", Math.PI));
+            int i = 0;
+            while(s.hasNext()){
+                linhas[i] = s.nextLine();
+                i++;
+            }
+
+            
             for(int j = 0; j < linhas.length; j++){
                 tokenizer.tokenize(linhas[j]);
                 ExpressionNode exp = parser.parse(tokenizer.getTokens());
+                exp.accept(new SetVariable("pi", Math.PI));
                 System.out.println("resultado da linha " + j + ": " + exp.getValue());
             }
 

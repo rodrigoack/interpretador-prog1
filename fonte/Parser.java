@@ -160,7 +160,7 @@ public class Parser{
 			return expr;
 		}
 			
-			return value();
+		return value();
 	}
 
 	private ExpressionNode value() throws Exception{
