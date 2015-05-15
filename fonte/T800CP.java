@@ -47,7 +47,8 @@ public class T800CP{
             for(int j = 0; j < linhas.length; j++){
                 tokenizer.tokenize(linhas[j]);
                 ExpressionNode exp = parser.parse(tokenizer.getTokens());
-                exp.accept(new SetVariable("pi", Math.PI));
+
+
                 System.out.println("resultado da linha " + j + ": " + exp.getValue());
             }
 
