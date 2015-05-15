@@ -30,9 +30,6 @@ public class T800CP{
         tokenizer.add("[0-9]+", Token.NUMBER);                  //números inteiros
         tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", Token.VARIABLE); //variáveis 
 
-        
-
-
         try{
             f = new File(args[0]);
             s = new Scanner(f);
